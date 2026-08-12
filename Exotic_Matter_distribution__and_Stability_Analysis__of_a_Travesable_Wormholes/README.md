@@ -44,9 +44,12 @@ I also introduced a simplified effective potential to investigate the response o
 
 For the particular effective potential used in this notebook, the calculated curvature at the throat was negative:
 
-`V''(r₀) < 0`
+[
+V''(r_0) < 0
+]
 
 This corresponds to an unstable equilibrium in **this specific simplified model**.
+
 
 Therefore, the result should not be interpreted as proving that all Morris–Thorne wormholes are unstable. Wormhole stability depends on the chosen geometry, matter model, perturbation equations, and underlying gravitational theory.
 
