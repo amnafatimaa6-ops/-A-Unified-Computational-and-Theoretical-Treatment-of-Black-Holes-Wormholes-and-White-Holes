@@ -4,7 +4,7 @@
 
 This notebook numerically solves the geodesic equations of General Relativity to simulate the motion of particles around a non-rotating Schwarzschild black hole.
 
-The project starts from the Schwarzschild metric, derives the relevant geodesic equations for equatorial motion, converts the second-order equations into a first-order system, and solves them numerically using the fourth-order Runge–Kutta (RK4) method.
+The project starts from the Schwarzschild metric, derives the relevant geodesic equations for equatorial motion, converts the second-order equations into a first-order system, and solves them numerically using the fourth-order Runge--Kutta (RK4) method.
 
 The resulting trajectories are visualised as orbital paths around the black hole.
 
@@ -30,10 +30,10 @@ ds^2 =
 +
 r^2d\theta^2
 +
-r^2\sin^2\theta\,d\phi^2
+r^2\sin^2\theta,d\phi^2
 $$
 
-The simulation uses geometric units:
+The simulation uses geometrized units:
 
 $$
 G=c=1
@@ -74,9 +74,9 @@ $$
 
 Here:
 
-- $x^\mu$ are spacetime coordinates
-- $\lambda$ is an affine parameter
-- $\Gamma^\mu_{\alpha\beta}$ are the Christoffel symbols
+* $x^\mu$ are spacetime coordinates.
+* $\lambda$ is an affine parameter.
+* $\Gamma^\mu_{\alpha\beta}$ are the Christoffel symbols.
 
 Only the non-zero terms relevant to equatorial Schwarzschild motion are implemented in the numerical solver.
 
@@ -97,8 +97,6 @@ $$
 The numerical state vector is therefore:
 
 $$
-\mathbf{y}
-=
 (t,r,\phi,u^t,u^r,u^\phi).
 $$
 
@@ -108,7 +106,7 @@ The RK4 solver updates all six components during each integration step.
 
 ## Numerical Method
 
-The trajectory is calculated using the fourth-order Runge–Kutta method.
+The trajectory is calculated using the fourth-order Runge--Kutta method.
 
 For each step, RK4 evaluates the differential equations at four intermediate points:
 
@@ -120,10 +118,11 @@ and combines them according to:
 
 $$
 y_{n+1}
-=
+=======
+
 y_n+
 \frac{h}{6}
-(k_1+2k_2+2k_3+k_4).
+\left(k_1+2k_2+2k_3+k_4\right).
 $$
 
 RK4 was chosen instead of the simpler Euler method because the latter evaluates the local slope only once per step. RK4 samples the evolution at multiple points within each step, providing substantially better numerical accuracy for curved trajectories.
@@ -164,16 +163,16 @@ Changing these initial conditions can produce different orbital behaviours, incl
 
 ## Numerical Parameters
 
-| Parameter | Value |
-|---|---:|
-| Black-hole mass | $M=1$ |
-| Units | $G=c=1$ |
-| Initial radius | $r=8M$ |
-| Initial radial velocity | $u^r=0$ |
+| Parameter                |         Value |
+| ------------------------ | ------------: |
+| Black-hole mass          |         $M=1$ |
+| Units                    |       $G=c=1$ |
+| Initial radius           |        $r=8M$ |
+| Initial radial velocity  |       $u^r=0$ |
 | Initial angular velocity | $u^\phi=0.05$ |
-| Integration step | $h=0.01$ |
-| Integration steps | 5000 |
-| Numerical method | RK4 |
+| Integration step         |      $h=0.01$ |
+| Integration steps        |        $5000$ |
+| Numerical method         |           RK4 |
 
 ---
 
@@ -217,3 +216,4 @@ Particle Trajectory
 Polar → Cartesian Conversion
         ↓
 Orbit Visualisation
+```
