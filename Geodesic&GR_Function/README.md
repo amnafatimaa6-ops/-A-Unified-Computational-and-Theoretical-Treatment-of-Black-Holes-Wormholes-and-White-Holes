@@ -192,7 +192,7 @@ $$
 
 The resulting plot shows the simulated particle trajectory together with the black hole and its event horizon.
 
-An animation can also be generated to visualise the particle's evolution along the trajectory.
+An animation can also be generated to visualize the particle's evolution along the trajectory.
 
 ---
 
