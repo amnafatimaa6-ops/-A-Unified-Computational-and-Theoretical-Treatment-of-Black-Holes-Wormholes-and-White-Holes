@@ -23,13 +23,13 @@ The project has two main goals:
 
 ---
 
-# Scientific Question
+## Scientific Question
 
 The central question investigated is:
 
 > **How does the entropy of Hawking radiation evolve during black hole evaporation under competing information-loss and information-preserving models?**
 
-The project compares two simplified models:
+The project compares two simplified models.
 
 ### Hawking Information-Loss Model
 
@@ -37,9 +37,9 @@ Radiation entropy continuously increases as the black hole evaporates.
 
 In the simplified model:
 
-\[
+$$
 S(t)=t
-\]
+$$
 
 This represents the idea that information remains inaccessible and the radiation becomes increasingly mixed.
 
@@ -49,19 +49,19 @@ Radiation entropy initially increases, reaches a maximum near the Page Time, and
 
 The toy model uses:
 
-\[
+$$
 S(t)=
 \begin{cases}
-t, & t\leq t_{\mathrm{Page}}\\
-N-t, & t>t_{\mathrm{Page}}
+t, & t \leq t_{\mathrm{Page}},\\
+N-t, & t > t_{\mathrm{Page}}.
 \end{cases}
-\]
+$$
 
 This produces the characteristic rise-and-fall shape associated with a unitary evaporation scenario.
 
 ---
 
-# Project Structure
+## Project Structure
 
 The notebook is divided into four main parts:
 
