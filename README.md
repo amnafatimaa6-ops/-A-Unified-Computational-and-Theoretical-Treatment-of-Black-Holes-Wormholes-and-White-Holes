@@ -253,3 +253,16 @@ Future work aims to connect these individual investigations into a unified resea
   <em>If a question here makes you curious, open the notebook.<br>
   That's where the real work is.</em>
 </p>
+
+<p align="center">
+  <img src="./Extra%20Visuals/Schwarzschild.png" width="23%" alt="Schwarzschild Black Hole"/>
+  <img src="./Extra%20Visuals/Reissner%E2%80%93Nordstr%C3%B6m.png" width="23%" alt="Reissner–Nordström Black Hole"/>
+  <img src="./Extra%20Visuals/Kerr.png" width="23%" alt="Kerr Black Hole"/>
+  <img src="./Extra%20Visuals/Kerr-Newman.png" width="23%" alt="Kerr-Newman Black Hole"/>
+</p>
+🌌 Curious About What Lies Beyond the Images?
+
+Want to see the physics, calculations, simulations, and other details behind these black hole models?
+
+🔭 Explore the interactive dashboard →
+https://gepsncfcpxfpefryuids9u.streamlit.app/
