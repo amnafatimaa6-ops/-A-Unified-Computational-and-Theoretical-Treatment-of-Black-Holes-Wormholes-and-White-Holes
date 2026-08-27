@@ -30,6 +30,11 @@ From the geometry of traversable wormholes to real LIGO gravitational-wave data,
 **General Relativity + Numerical Methods + Computational Physics + Observational Data**
 
 The central question connecting the repository is simple:
+<p align="center">
+  <img src="./Extra%20Visuals/black_hole.gif" width="30%" alt="Black Hole"/>
+  <img src="./Extra%20Visuals/wormhole.gif" width="30%" alt="Wormhole"/>
+  <img src="./Extra%20Visuals/white_hole.gif" width="30%" alt="White Hole"/>
+</p>
 
 > **What would we actually see, measure, or compute if these exotic objects were real?**
 
