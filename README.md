@@ -255,12 +255,13 @@ Future work aims to connect these individual investigations into a unified resea
 </p>
 
 <p align="center">
-  <img src="./Extra%20Visuals/Schwarzschild.png" width="23%" alt="Schwarzschild Black Hole"/>
-  <img src="./Extra%20Visuals/Reissner%E2%80%93Nordstr%C3%B6m.png" width="23%" alt="Reissner–Nordström Black Hole"/>
-  <img src="./Extra%20Visuals/Kerr.png" width="23%" alt="Kerr Black Hole"/>
-  <img src="./Extra%20Visuals/Kerr-Newman.png" width="23%" alt="Kerr-Newman Black Hole"/>
+  <img src="./Extra%20Visuals/Schwarzschild.png" width="25%" alt="Schwarzschild Black Hole"/>
+  <img src="./Extra%20Visuals/Reissner%E2%80%93Nordstr%C3%B6m.png" width="25%" alt="Reissner–Nordström Black Hole"/>
+  <img src="./Extra%20Visuals/Kerr.png" width="25%" alt="Kerr Black Hole"/>
+  <img src="./Extra%20Visuals/Kerr-Newman.png" width="25%" alt="Kerr-Newman Black Hole"/>
 </p>
-🌌 Curious About What Lies Beyond the Images?
+
+### 🌌 Curious About What Lies Beyond the Images?
 
 Want to see the physics, calculations, simulations, and other details behind these black hole models?
 
