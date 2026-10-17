@@ -1,92 +1,95 @@
 # Searching for Primordial Black Hole Evaporation Signatures in Fermi-LAT Gamma-Ray Burst Data
+# Can a Tiny Black Hole Show Up in Fermi's Gamma-Ray Burst Data?
 
-A Python data-analysis project that asks a simple question: **could any gamma-ray bursts seen by NASA's Fermi telescope look like a tiny black hole finishing its life?**
+I used real NASA data to check whether any flashes of gamma rays in space could be a tiny black hole running out of life.
 
-The goal is **not** to prove that primordial black holes (PBHs) exist. It is to rank real bursts by how closely they resemble the theoretical prediction, and to be clear about what that does and does not mean.
+**I did not find a black hole.** This project is about asking the question properly and ranking the best "suspects", not proving anything.
 
 ---
 
-## The idea in simple words
+## The idea (simple version)
 
-- Stephen Hawking showed that black holes slowly leak energy (Hawking radiation) and shrink.
-- The smaller a black hole gets, the hotter it is and the faster it leaks.
-- A primordial black hole of about **5 × 10^11 kg** would be reaching the end of its life around the present age of the Universe, ending with a short burst of gamma rays.
-- Fermi-LAT has detected hundreds of gamma-ray bursts (GRBs). This project checks which ones look most like that prediction.
+- Stephen Hawking found that black holes slowly leak energy and shrink. This is called **Hawking radiation**.
+- The smaller a black hole gets, the hotter it is and the faster it leaks, like an ice cube that melts faster as it gets smaller.
+- Some tiny black holes (called **primordial black holes**) might have formed right after the Big Bang.
+- One with a mass of about **5 × 10^11 kg** would be finishing its life about now, ending with a short flash of gamma rays.
+- NASA's **Fermi telescope** has recorded hundreds of gamma-ray flashes (GRBs). So I asked: do any of them look like that final flash?
 
-## Data
+## The data
 
-- **Source:** NASA HEASARC, Fermi-LAT GRB catalog (table `fermilgrb`), loaded with `astroquery`
-- **Size:** 231 GRBs, 111 columns
-- **Columns used:** burst duration (`gbm_cat_t90`, from Fermi-GBM), fluence, flux, photon spectral index (`like_best_grbindex`), LAT detection test statistic (`like_lat_ts`), maximum photon energy (`ext_emission_max_ene`), redshift
-- **Missing data:** only 45 of 231 bursts have a measured redshift; some maximum-energy values are placeholders (such as -670) and were treated as missing
+- **Where from:** NASA HEASARC, Fermi-LAT GRB catalog (`fermilgrb`), loaded with `astroquery`
+- **Size:** 231 gamma-ray bursts and 111 columns
+- **What I used:** how long the burst lasted (T90), how strongly it was detected (TS), the highest photon energy, the spectral index, fluence, flux and redshift
+- **Missing data:** only 45 of 231 bursts have a redshift (a distance measure). Some photon energies were fake placeholder numbers (like -670), so I treated them as missing.
 
-## Method
+## What I did
 
-1. Load the catalog with `astroquery` and convert it to a pandas DataFrame.
-2. Clean the data (drop unneeded columns, handle missing values and placeholder values).
-3. Calculate the Hawking temperature of a 5 × 10^11 kg black hole:
-   `T = ħc³ / (8πGMk_B)`, which gives about **21.15 MeV**.
-4. Explore the full sample with histograms (duration, photon energy, spectral index) and a correlation heatmap.
-5. Select **short GRBs** (T90 < 2 s): **21 bursts** (about 9% of the sample).
-6. Build a **PBH Consistency Index** from four min-max scaled features:
+1. Loaded the catalog and turned it into a pandas table.
+2. Cleaned it and checked what was missing.
+3. Calculated the temperature of a 5 × 10^11 kg black hole with Hawking's formula. The answer is about **21.15 MeV**.
+4. Made plots of burst duration, photon energy and spectral index, plus a correlation heatmap.
+5. Picked the **short bursts** (shorter than 2 seconds), because a black hole's final flash should be quick. That left **21 bursts**, about 9% of the sample.
+6. Made a **PBH Consistency Index**, a score from 0 to 1 that shows how much a burst looks like what I expect from a dying black hole. It mixes four things:
 
-| Feature | Weight | Direction |
+| Thing | Weight | How it is scored in the code |
 |---|---|---|
-| Burst duration (T90) | 0.40 | shorter scores higher |
-| Maximum photon energy | 0.30 | higher scores higher |
-| LAT detection strength (TS) | 0.20 | higher scores higher |
-| Photon spectral index | 0.10 | harder (less negative) scores higher |
+| How short the burst is (T90) | 40% | shorter = higher score |
+| Highest photon energy | 30% | higher = higher score |
+| How strongly it was detected (TS) | 20% | higher = higher score |
+| Spectral index | 10% | the code uses the negative of the index (see the note below) |
 
-7. Remove bursts with a measured redshift (a cosmological distance rules out a PBH) and compare the remaining candidates.
+7. Threw out any burst with a measured redshift. A burst that far away is far too distant for a black hole this small to be seen.
 
-The index is a **ranking**, not a probability.
+The score is a **ranking**. It is not a probability that a burst is a black hole.
 
-## Key results
+## What I found
 
-- Hawking temperature of a 5 × 10^11 kg PBH: **about 21.15 MeV**
-- Most bursts are long: median T90 is about 31 s; only 21 of 231 are shorter than 2 s
-- 19 of the 21 short bursts have complete data and were scored (two have placeholder photon energies)
-- GRB090510016 scores highest but has a redshift of z = 0.903, so it is excluded
-- A few short bursts without redshift score well, but the ranking changes when weights or the spectral-index direction change, so it is **not stable**
-- **No burst gives conclusive evidence for primordial black hole evaporation**
+- A 5 × 10^11 kg black hole has a Hawking temperature of about **21.15 MeV**.
+- Most bursts are long. The middle burst lasts about 31 seconds, and only 21 of 231 are under 2 seconds.
+- Of the 21 short bursts, 19 had complete data and got a score.
+- **GRB090510016** got the top score, but it has a redshift of 0.903, so it is billions of light-years away and I ruled it out.
+- Among the rest, the top-ranked bursts were **GRB170127067** and **GRB200415367**, followed by GRB190606080 and GRB160702516.
+- **None of them is proof of a primordial black hole.**
 
-## Important notes and caveats
+## Things you should know (honest notes)
 
-- **21 MeV is the temperature today.** A shrinking black hole gets hotter, so its final burst would reach much higher energies. Seeing GeV photons does not rule PBHs out.
-- **Short does not mean PBH.** Neutron-star mergers and magnetar giant flares also produce short bursts and are far more common.
-- **GRB200415367 appears to match GRB 200415A**, which published studies interpret as a magnetar giant flare in the galaxy NGC 253 (about 3.5 Mpc away). Such a flare releases around 10^44 to 10^46 erg, while a 5 × 10^11 kg black hole holds only about 4.5 × 10^35 erg in total. (Name match is by date and duration; confirm in the catalog.)
-- **Missing redshift is weak evidence.** Most short GRBs lack a redshift because they are faint, not because they are nearby.
-- T90 comes from Fermi-GBM, not LAT.
+- **21 MeV is the temperature right now.** A black hole gets hotter as it shrinks, so its final burst would have much higher energies. So seeing GeV photons does not rule black holes out.
+- **Short does not mean black hole.** Two neutron stars crashing together, or a flare from a magnetar (a neutron star with a huge magnetic field), also make short bursts. These are far more common.
+- **GRB200415367 looks like GRB 200415A**, which scientists think was a magnetar flare in the galaxy NGC 253. A flare like that releases around 10^44 to 10^46 erg, but a 5 × 10^11 kg black hole only holds about 4.5 × 10^35 erg in total. I matched the name by date and duration, so it is worth double-checking in the catalog.
+- **No redshift is weak evidence.** Most short bursts have no redshift because they are faint, not because they are close.
+- **Burst duration (T90) comes from Fermi's other instrument (GBM)**, not LAT.
+- **Spectral index note:** the code uses `-like_best_grbindex`. Since the index is negative, this gives a *higher* score to *softer* spectra, which is the opposite of what I meant (harder spectra). It only has a 10% weight, but it can change the order a bit. Fixing it would be a good next step.
 
 ## Limitations
 
-- The weights are chosen by hand, not fitted to data or a physical model
-- Small sample (21 short bursts, 19 scored); the top of the ranking reshuffles easily
-- Min-max scaling is sensitive to outliers (one very bright burst compresses all other scores)
-- The catalog only contains bursts already flagged as GRBs, so a real PBH burst may be missing
-- No comparison with a full Hawking-radiation spectrum or the bursts' light curves
-- Sky positions and host galaxies were not checked
+- I picked the weights myself. They are not fitted to data or to a real black-hole model.
+- The sample is small (19 scored bursts), so the ranking can shuffle easily.
+- One very bright burst can squash everyone else's scores because of min-max scaling.
+- The catalog only has bursts that were already flagged as GRBs. A real black-hole flash might not be in it.
+- I did not compare the real spectra or light curves to a full Hawking-radiation model.
+- I did not check where in the sky each burst is (for example, whether it sits in a nearby galaxy).
 
-## Future work
+## What I would do next
 
-- Test ranking stability with many random weight choices
-- Use rank-based or log scaling instead of min-max scaling
-- Add an energy and distance check: a PBH burst can only be detected from within roughly tens to a couple of hundred parsecs
-- Check sky positions against nearby galaxies to flag magnetar giant flares
-- Compare measured spectra with a simulated Hawking-radiation spectrum
-- Analyse light curves (a PBH burst should brighten and harden toward the end)
-- Extend to the full Fermi-GBM catalog and compare with published PBH limits
-- Train a classifier on known mergers and magnetar flares and study what is left over
+- Fix the spectral-index sign and re-run the ranking
+- Try many different weights to see which bursts stay near the top
+- Use a scaling method that is not thrown off by one extreme burst
+- Check if each burst has enough energy to be a black hole at its distance
+- Check burst positions against nearby galaxies
+- Compare real spectra with a simulated Hawking-radiation spectrum
+- Look at light curves (a dying black hole should get brighter and harder toward the end)
+- Use a bigger catalog (the full Fermi-GBM burst list)
+- Try machine learning to separate known mergers and magnetar flares from everything else
 
 ## Tools
 
-Python, `astroquery`, `astropy`, `pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn` (Google Colab)
+Python, astroquery, astropy, pandas, numpy, matplotlib, seaborn, scikit-learn (Google Colab)
 
 ## How to run
 
-1. Open the notebook in Google Colab (or Jupyter).
-2. Run the first cell to install `astroquery`, `astropy` and `pandas`.
-3. Run all cells in order. The catalog is downloaded live from HEASARC, so an internet connection is needed.
+1. Open the notebook in Google Colab.
+2. Run the first cell to install the packages.
+3. Run the rest of the cells in order. You need internet because the data downloads live from NASA.
 
 ## Author
 
