@@ -1,88 +1,117 @@
-# GW150914 Gravitational-Wave Data Analysis
+# GW150914: Gravitational-Wave Data Analysis with Python
 
 ## Overview
 
-This notebook analyses the historic gravitational-wave event **GW150914**, detected by the Laser Interferometer Gravitational-Wave Observatory (LIGO) on 14 September 2015.
+This project explores gravitational-wave data from GW150914, a binary black-hole merger observed by the LIGO detectors on 14 September 2015.
 
-The goal is to work with real gravitational-wave observational data and investigate whether the measured signal exhibits the characteristic behaviour predicted by General Relativity for a **binary black hole merger**.
+Using Python in a Jupyter Notebook, I analyse publicly available data from the Hanford (H1) and Livingston (L1) detectors. The notebook includes signal visualisation, bandpass filtering, strain measurements, exploratory frequency analysis, and a comparison between the observed signal and a theoretically generated waveform.
 
-The analysis uses data from both LIGO detectors:
+The goal is to explore how computational methods can help investigate real gravitational-wave observations.
 
-* **H1 — Hanford Observatory**
-* **L1 — Livingston Observatory**
+## Objectives
 
-The notebook combines observational data analysis, signal processing, numerical methods, and theoretical waveform modelling to connect real gravitational-wave measurements with General Relativity.
+- Retrieve and examine gravitational-wave data from both LIGO detectors.
+- Visualise the signals and inspect the interval surrounding the merger.
+- Apply a bandpass filter to examine a selected frequency range.
+- Calculate the maximum absolute filtered strain within the selected interval.
+- Explore the signal envelope using the Hilbert transform.
+- Estimate frequency behaviour using detected peak spacing.
+- Generate a theoretical binary-black-hole waveform and compare its shape with the observed signal.
 
----
+## Methodology
 
-## Scientific Questions
+### 1. Data Retrieval
 
-This notebook investigates several questions:
+The notebook uses GWpy to retrieve publicly available LIGO data for H1 and L1 over a 32-second interval surrounding GW150914.
 
-1. What does the raw GW150914 detector data look like?
-2. How can detector noise be reduced to reveal the astrophysical signal?
-3. Can the characteristic gravitational-wave chirp be extracted from the data?
-4. How does the observed frequency evolve near merger?
-5. Does the observed waveform show the expected inspiral--merger--ringdown structure?
-6. How closely does the observed signal resemble a theoretical General Relativity waveform?
+The data are sampled at 4096 Hz, giving a sampling interval of approximately 0.000244 seconds and 131,072 samples per detector over the selected interval.
 
----
+### 2. Signal Processing
 
-## Dataset
+The detector time series are visualised, and a bandpass filter from 30 to 400 Hz is applied to focus on the selected frequency range.
 
-The gravitational-wave strain data are obtained from the **Gravitational Wave Open Science Center (GWOSC)** using the `GWpy` library.
+The notebook then examines an approximately 0.4-second interval around the merger to investigate the signal's behaviour over a shorter timescale.
 
-A 32-second segment surrounding GW150914 is analysed from both detectors.
+### 3. Strain Analysis
 
-### Dataset Characteristics
+The notebook calculates the maximum absolute filtered-strain value within the selected interval.
 
-| Property             |                     Value |
-| -------------------- | ------------------------: |
-| Detectors            |                 H1 and L1 |
-| Duration             |                32 seconds |
-| Sampling rate        |                   4096 Hz |
-| Samples per detector |                   131,072 |
-| Quantity measured    | Gravitational-wave strain |
-| Strain units         |             Dimensionless |
-| Event                |                  GW150914 |
-| Detection date       |         14 September 2015 |
+The reported values are approximately:
 
-The strain is defined as
+- **Hanford (H1):** \(2.480 \times 10^{-21}\)
+- **Livingston (L1):** \(2.243 \times 10^{-21}\)
 
-$$
-h=\frac{\Delta L}{L}
-$$
+These values describe the processed time series within the chosen interval. They are not presented as official peak-strain measurements or as a direct measure of the detectors' relative sensitivity.
 
-where $L$ is the detector arm length and $\Delta L$ is the extremely small change produced by the passing gravitational wave.
+### 4. Signal Envelope and Frequency Exploration
 
----
+The Hilbert transform is used to examine the signal's amplitude envelope. Detected peaks are also used to explore frequency behaviour through their spacing.
 
-## Analysis Pipeline
+These calculations provide an exploratory view of the signal rather than a precision measurement of its instantaneous frequency.
 
-The notebook follows a complete observational-to-theoretical workflow:
+### 5. Theoretical Waveform Generation
 
-```text
-GWOSC
-  ↓
-Download LIGO strain data
-  ↓
-Inspect H1 and L1 datasets
-  ↓
-Visualise raw strain
-  ↓
-Band-pass filtering
-  ↓
-Select merger time window
-  ↓
-Extract GW150914 chirp
-  ↓
-Measure peak strain
-  ↓
-Estimate frequency evolution
-  ↓
-Analyse signal envelope
-  ↓
-Generate theoretical waveform
-  ↓
-Compare observation with General Relativity
-```
+The notebook uses PyCBC to generate an `IMRPhenomD` binary-black-hole waveform with component masses of 36 and 29 solar masses and a lower frequency cutoff of 20 Hz.
+
+The generated waveform is normalised and peak-aligned for visual comparison with the observed signal.
+
+The masses are specified model inputs; the notebook does not estimate them from the detector data. The comparison is qualitative and does not constitute a formal statistical fit or an independent test of general relativity.
+
+The notebook also includes a \(t^{1.5}\) curve constructed from selected frequency values. This is an illustrative mathematical curve rather than a theoretical prediction from general relativity.
+
+## Results
+
+The notebook demonstrates an exploratory workflow for investigating real gravitational-wave observations.
+
+The analysis produces visualisations of the two detector time series, filtered signals, a short merger interval, strain measurements, a signal envelope, a peak-based frequency estimate, and a generated theoretical waveform for visual comparison.
+
+Together, these steps demonstrate how scientific Python libraries can be used to retrieve, process, visualise, and explore gravitational-wave data.
+
+The results are exploratory and do not represent a new detection, a formal waveform fit, or an independent confirmation of general relativity.
+
+## Limitations
+
+- **Noise and filtering:** Bandpass filtering restricts the analysed frequency range but does not remove all detector noise. Filtering can also introduce edge effects.
+- **Frequency estimation:** Peak-based estimates can be affected by noise, peak detection, and the spacing of the selected peaks.
+- **Qualitative waveform comparison:** Normalising and peak-aligning the waveforms supports visual comparison but does not preserve all original amplitude and timing information. No formal statistical fit is performed.
+- **Specified model parameters:** The component masses are inputs to the theoretical waveform rather than estimates obtained from the observed data.
+- **Illustrative curve:** The \(t^{1.5}\) curve is a mathematical illustration and should not be interpreted as a general-relativity prediction.
+- **Detector differences:** The H1 and L1 measurements can differ because of detector orientation, response, calibration, and noise.
+- **Scope of analysis:** The notebook investigates an already identified gravitational-wave event. It does not independently establish the event's astrophysical significance or perform a complete source-parameter estimation.
+
+## Future Work
+
+Possible extensions of this project include:
+
+1. **Time-frequency analysis:** Investigate the signal's evolving frequency using time-frequency visualisations and more robust phase-based methods.
+2. **Noise investigation:** Examine raw and filtered data, assess filtering effects, and test the sensitivity of the results to different filter settings.
+3. **Improved waveform comparison:** Explore more systematic alignment methods, detector-response modelling, and quantitative goodness-of-fit measures.
+4. **Parameter estimation:** Study established gravitational-wave inference techniques to investigate how source properties can be estimated from detector observations.
+5. **Detector comparison:** Examine the consistency of the two detector signals while accounting for their different responses and noise characteristics.
+6. **Reproducibility:** Document software versions, analysis settings, and selected time intervals to make the workflow easier to reproduce.
+
+These are proposed extensions and are not claimed as completed features of the current notebook.
+
+## Technologies Used
+
+- Python
+- Jupyter Notebook
+- GWpy
+- NumPy
+- SciPy
+- Matplotlib
+- PyCBC
+- Publicly available LIGO data
+
+## References
+
+1. Abbott et al. (2016). *Observation of Gravitational Waves from a Binary Black Hole Merger*. Physical Review Letters. https://doi.org/10.1103/PhysRevLett.116.061102
+2. Gravitational Wave Open Science Center (GWOSC): https://gwosc.org/
+3. GWpy documentation: https://gwpy.github.io/docs/
+4. PyCBC waveform documentation: https://pycbc.org/pycbc/latest/html/waveform.html
+
+## Author
+
+Amna Fatima
+
+*An exploratory computational physics project investigating gravitational-wave observations through scientific programming, signal processing, and waveform visualisation.*
